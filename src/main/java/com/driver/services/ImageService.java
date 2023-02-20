@@ -18,12 +18,14 @@ public class ImageService {
     public Image addImage(Integer blogId, String description, String dimensions){
         //add an image to the blog
       Image image = new Image();
-        image.setBlog(blogRepository2.findById(blogId).get());
+      Blog blog = blogRepository2.findById(blogId).get();
+        image.setBlog(blog);
         image.setDescription(description);
         image.setDimensions(dimensions);
-        List<Image> currList = blogRepository2.findById(blogId).get().getImageList();
+        List<Image> currList = blog.getImageList();
         currList.add(image);
-        imageRepository2.save(image);
+        blog.setImageList(currList);
+        blogRepository2.save(blog);
         return image;
 
     }
@@ -36,10 +38,12 @@ public class ImageService {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
         Image image = imageRepository2.findById(id).get();
         String imageDim = image.getDimensions();
-        int imageWidth = Integer.parseInt(imageDim.substring(0,1));
-        int imageHeight = Integer.parseInt(imageDim.substring(2,3));
-        int scrnWidth = Integer.parseInt(screenDimensions.substring(0,1));
-        int scrnHeight = Integer.parseInt(screenDimensions.substring(2,3));
+        String[] arr = imageDim.split("X",2);
+        String[] arr2 = imageDim.split("X",2);
+        int imageWidth = Integer.parseInt(arr[0]);
+        int imageHeight = Integer.parseInt(arr[1]);
+        int scrnWidth = Integer.parseInt(arr2[0]);
+        int scrnHeight = Integer.parseInt(arr2[1]);
         int horizontal = scrnWidth/imageWidth;
         int vertical = scrnHeight/imageHeight;
         int count = horizontal*vertical;
