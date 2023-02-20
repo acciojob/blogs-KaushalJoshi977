@@ -39,7 +39,7 @@ public class ImageService {
         Image image = imageRepository2.findById(id).get();
         String imageDim = image.getDimensions();
         String[] arr = imageDim.split("X",2);
-        String[] arr2 = imageDim.split("X",2);
+        String[] arr2 = screenDimensions.split("X",2);
         int imageWidth = Integer.parseInt(arr[0]);
         int imageHeight = Integer.parseInt(arr[1]);
         int scrnWidth = Integer.parseInt(arr2[0]);
